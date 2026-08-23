@@ -1,10 +1,21 @@
-const applications = [
-  { id: 1, company: "Google", role: "Software Engineer", date: "2024-01-10", status: "Interview", url: "https://careers.google.com" },
-  { id: 2, company: "Meta", role: "Frontend Developer", date: "2024-01-15", status: "Applied" , url: "https://careers.google.com"},
-  { id: 3, company: "Netflix", role: "React Developer", date: "2024-01-20", status: "Rejected", url: "https://careers.google.com" },
-]
+import { useEffect, useState } from "react"
+import { supabase } from "../supabase"
 
 function Applications() {
+  const [applications, setApplications] = useState([])
+
+  useEffect(() => {
+    async function fetchApplications() {
+      const { data, error } = await supabase.from("applications").select("*")
+    console.log("data:", data)
+    console.log("error:", error)
+      if (error) console.error(error)
+      else setApplications(data)
+    }
+    fetchApplications()
+  }, [])
+
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6">My Applications</h1>
@@ -16,6 +27,7 @@ function Applications() {
             <th className="text-left px-6 py-3">Date Applied</th>
             <th className="text-left px-6 py-3">Status</th>
             <th className="text-left px-6 py-3">URL</th>
+            <th className="text-left px-6 py-3">Notes</th>
           </tr>
         </thead>
         <tbody>
@@ -23,7 +35,7 @@ function Applications() {
             <tr key={app.id} className="border-b hover:bg-gray-50">
               <td className="px-6 py-4 font-medium">{app.company}</td>
               <td className="px-6 py-4 font-medium">{app.role}</td>
-              <td className="px-6 py-4 font-medium">{app.date}</td>
+              <td className="px-6 py-4 font-medium">{app.date_applied}</td>
               <td className="px-6 py-4">
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                   app.status === "Interview" ? "bg-blue-100 text-blue-700" :
@@ -35,6 +47,7 @@ function Applications() {
               <td className="px-6 py-4">
                 <a href={app.url} className="text-blue-500 hover:underline">{app.url}</a>
               </td>
+              <td className="px-6 py-4 font-medium">{app.notes}</td>
             </tr>
           ))}
         </tbody>
