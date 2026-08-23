@@ -6,7 +6,8 @@ function Applications() {
 
   useEffect(() => {
     async function fetchApplications() {
-      const { data, error } = await supabase.from("applications").select("*")
+      const { data: { user } } = await supabase.auth.getUser()
+const { data, error } = await supabase.from("applications").select("*").eq("user_id", user.id)
     console.log("data:", data)
     console.log("error:", error)
       if (error) console.error(error)

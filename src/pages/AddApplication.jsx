@@ -11,12 +11,13 @@ function AddApplication() {
     notes: ""
   })
 
-  async function handleSubmit(e) {
-    e.preventDefault()
-    const { error } = await supabase.from("applications").insert([formData])
-    if (error) console.error(error)
-    else alert("Application added!")
-  }
+async function handleSubmit(e) {
+  e.preventDefault()
+  const { data: { user } } = await supabase.auth.getUser()
+  const { error } = await supabase.from("applications").insert([{ ...formData, user_id: user.id }])
+  if (error) console.error(error)
+  else alert("Application added!")
+}
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
