@@ -25,6 +25,8 @@ async function handleDelete(id) {
 const [editingId, setEditingId] = useState(null)
 const [editData, setEditData] = useState({})
 
+const [filterData, setFilter] = useState("All")
+
 async function handleEdit(id) {
   const { error } = await supabase.from("applications").update(editData).eq("id", id)
   if (error) console.error(error)
@@ -33,9 +35,21 @@ async function handleEdit(id) {
     setEditingId(null)
   }
 }
+
+const filteredApplications = filterData === "All" 
+  ? applications 
+  : applications.filter(app => app.status === filterData)
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6">My Applications</h1>
+      <select onChange={e => setFilter(e.target.value)} className="border rounded px-3 py-2 mb-4">
+        <option>All</option>
+        <option>Applied</option>
+        <option>Interview</option>
+        <option>Offer</option>
+        <option>Rejected</option>
+      </select>
       <table className="w-full border-solid bg-white shadow rounded-lg overflow-hidden">
         <thead className="bg-gray-900 text-white">
           <tr>
@@ -49,7 +63,7 @@ async function handleEdit(id) {
           </tr>
         </thead>
         <tbody>
-        {applications.map(app => (
+        {filteredApplications.map(app => (
         <tr key={app.id} className="border-b hover:bg-gray-50">
         {editingId === app.id ? (
       <>
