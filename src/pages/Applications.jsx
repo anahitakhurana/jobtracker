@@ -3,6 +3,7 @@ import { supabase } from "../supabase"
 
 function Applications() {
   const [applications, setApplications] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchApplications() {
@@ -10,8 +11,9 @@ function Applications() {
 const { data, error } = await supabase.from("applications").select("*").eq("user_id", user.id)
     console.log("data:", data)
     console.log("error:", error)
-      if (error) console.error(error)
-      else setApplications(data)
+    if (error) console.error(error)
+    else setApplications(data)
+    setLoading(false)
     }
     fetchApplications()
   }, [])
@@ -63,6 +65,11 @@ const filteredApplications = filterData === "All"
           </tr>
         </thead>
         <tbody>
+        {filteredApplications.length === 0 && (
+        <tr>
+        <td colSpan="7" className="text-center py-8 text-gray-400">No applications found</td>
+        </tr>
+        )}
         {filteredApplications.map(app => (
         <tr key={app.id} className="border-b hover:bg-gray-50">
         {editingId === app.id ? (

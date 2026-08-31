@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { supabase } from "../supabase"
 function Dashboard(){
     const [applications, setApplications] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
     async function fetchApplications() {
@@ -9,6 +10,7 @@ function Dashboard(){
         const { data, error } = await supabase.from("applications").select("*").eq("user_id", user.id)
         if (error) console.error(error)
         else setApplications(data)
+        setLoading(false)
     }
     fetchApplications()
     }, [])
@@ -16,6 +18,10 @@ function Dashboard(){
     const offerCount = applications.filter(app => app.status === "Offer").length
     const rejectedCount = applications.filter(app => app.status === "Rejected").length
     const applicationCount = applications.length
+
+    
+    if (loading) return <div className="p-8 text-gray-500">Loading...</div>
+   
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
