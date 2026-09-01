@@ -16,6 +16,7 @@ function Navbar() {
         <Link to="/dashboard" className="hover:text-blue-400">Dashboard</Link>
         <Link to="/applications" className="hover:text-blue-400">Applications</Link>
         <Link to="/add" className="hover:text-blue-400">Add Application</Link>
+        <Link to="/tailor" className="hover:text-blue-400">AI Tailor</Link>
         <button onClick={handleLogout} className="bg-red-500 px-4 py-1 rounded hover:bg-red-600">Log Out</button>
       </div>
     </nav>
