@@ -10,14 +10,16 @@ function Navbar() {
   }
 
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-gray-900 text-white">
-      <h1 className="text-xl font-bold">JobTracker</h1>
-      <div className="flex gap-6 items-center">
-        <Link to="/dashboard" className="hover:text-blue-400">Dashboard</Link>
-        <Link to="/applications" className="hover:text-blue-400">Applications</Link>
-        <Link to="/add" className="hover:text-blue-400">Add Application</Link>
-        <Link to="/tailor" className="hover:text-blue-400">AI Tailor</Link>
-        <button onClick={handleLogout} className="bg-red-500 px-4 py-1 rounded hover:bg-red-600">Log Out</button>
+    <nav className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between shadow-sm">
+      <div className="flex items-center gap-2">
+        <span className="text-xl font-extrabold text-blue-600">JobTracker</span>
+      </div>
+      <div className="flex items-center gap-8">
+        <Link to="/dashboard" className="text-gray-600 hover:text-blue-600 font-medium text-sm">Dashboard</Link>
+        <Link to="/applications" className="text-gray-600 hover:text-blue-600 font-medium text-sm">Applications</Link>
+        <Link to="/add" className="text-gray-600 hover:text-blue-600 font-medium text-sm">Add Job</Link>
+        <Link to="/tailor" className="text-gray-600 hover:text-blue-600 font-medium text-sm">AI Tailor</Link>
+        <button onClick={handleLogout} className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Log Out</button>
       </div>
     </nav>
   )
